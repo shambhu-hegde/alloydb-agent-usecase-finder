@@ -16,16 +16,16 @@ Match signals loosely. Names vary, for example `customer` / `users` / `accounts`
 ### P1. Per-session shopping or booking assistant
 - **Signals:** a product, listing, or room table with text such as `name`, `description`, or `title`; a stock or availability table (`quantity`, `available`, `reserved_*`); optionally reviews and a location column (`geography`, `geometry`, `lat`/`lng`).
 - **Agent:** one agent per shopper conversation. It combines vector (`scann`) and BM25/full-text search with live availability, price, and delivery or spatial distance (`PostGIS`) filters.
-- **Core data:** catalogue tables and stock or availability.
+- **Core data:** catalog tables and stock or availability.
 - **Typical gaps:**
   - an embedding column (`vector`) + `scann` index on product or description text (or automated in-database embeddings via `google_ml_integration`)
   - a `bm25` or `GIN` full-text index
   - `updated_at` on stock
-  - a `geography(Point, 4326)` location column + `GIST` index on the fulfilment site
+  - a `geography(Point, 4326)` location column + `GIST` index on the fulfillment site
   - a published price, or an effective-price view
 - **Fit profile:** 2/2/2/2. This is the flagship case. Load spikes during flash sales or launches coincide with peak checkout on the same tables, requiring sub-millisecond cold-read I/O and strict primary isolation.
 
-### P2. Inventory and fulfilment fan-out agents
+### P2. Inventory and fulfillment fan-out agents
 - **Signals:** a stock table keyed by item and site; a warehouse, store, or site table with a location column; order line items.
 - **Agent:** one agent per site, category, or SKU, launched as a parallel burst. It finds items at risk of running out, suggests transfers between nearby sites, drafts reorders, and picks the optimal site to ship from (combining point lookups with fast columnar velocity aggregations).
 - **Core data:** stock, sites, and order lines.
@@ -108,7 +108,7 @@ Match signals loosely. Names vary, for example `customer` / `users` / `accounts`
   - a moderation or status flag
 - **Fit profile:** 0/1/0/0. A batch job or standard read pool suffices.
 
-### P9. Semantic or hybrid search over an entity catalogue
+### P9. Semantic or hybrid search over an entity catalog
 - **Signals:** entity tables with rich text and attributes, such as hotels, properties, listings, documents, or courses.
 - **Agent:** handles natural-language hybrid search and comparison, for example "quiet, near downtown, pet-friendly".
 - **Core data:** the entity table.

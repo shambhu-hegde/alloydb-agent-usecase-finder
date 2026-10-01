@@ -3,16 +3,17 @@
 This is a skill that discovers, ranks, and recommends the agent use cases you could build with **PostgreSQL for agents in AlloyDB** (Preview). 
 
 Launch blogs:
-1) https://cloud.google.com/blog/products/databases/announcing-postgresql-for-agents-in-alloydb
-2) https://cloud.google.com/blog/products/databases/alloydbs-agentic-database-architecture
 
-This skills reads your table and column metadata through the Google Cloud **Knowledge Catalog (Dataplex) MCP server**, then:
+1. [Announcing PostgreSQL for agents in AlloyDB](https://cloud.google.com/blog/products/databases/announcing-postgresql-for-agents-in-alloydb)
+2. [AlloyDB's agentic database architecture](https://cloud.google.com/blog/products/databases/alloydbs-agentic-database-architecture)
+
+This skill reads your table and column metadata through the Google Cloud **Knowledge Catalog (Dataplex) MCP server**, then:
 
 1. **Inventories your databases:** finds your Cloud SQL and AlloyDB tables (and checks for BigQuery tables that could join via lakehouse federation), strictly scoped to the Google Cloud projects you name.
 2. **Models your business domain:** infers relationships between tables and classifies each table.
-3. **Proposes grounded agent use cases:** matches your schema against ten agent patterns and cites the exact tables and columns that support each candidate
-4. **Scores and ranks candidates out of 10:** evaluates **Architecture Fit** (grounded in AlloyDB's compute isolation, sub-millisecond I/O, elastic zero-to-thousands node scaling, and hybrid vector/BM25/spatial/columnar execution), **Business Value**, and **Data Readiness**, labeling each ranked candidate a **Best suited case** or a **Likely to suit use case**
-5. **Produces an actionable gap & migration blueprint:** lists missing columns, indexes, and tables with copy-pasteable AlloyDB DDL sketches (including `pgvector`/`scann`, `google_ml_integration` automated embeddings, `bm25`, and `PostGIS`), governance guardrails, and Cloud SQL → AlloyDB migration considerations
+3. **Proposes grounded agent use cases:** matches your schema against ten agent patterns and cites the exact tables and columns that support each candidate.
+4. **Scores and ranks candidates out of 10:** evaluates **Architecture Fit** (grounded in AlloyDB's compute isolation, sub-millisecond I/O, elastic zero-to-thousands node scaling, and hybrid vector/BM25/spatial/columnar execution), **Business Value**, and **Data Readiness**, labeling each ranked candidate a **Best suited case** or a **Likely to suit use case**.
+5. **Produces an actionable gap & migration blueprint:** lists missing columns, indexes, and tables with copy-pasteable AlloyDB DDL sketches (including `pgvector`/`scann`, `google_ml_integration` automated embeddings, `bm25`, and `PostGIS`), governance guardrails, and Cloud SQL → AlloyDB migration considerations.
 
 It reads **metadata only**: no row data is ever queried, and no writes are ever performed.
 
@@ -67,6 +68,7 @@ If the MCP server isn't connected yet, the skill automatically detects that in S
   - **Dataplex Catalog Viewer** (`roles/dataplex.catalogViewer`) to search and read catalog entries
   - **Cloud SQL Schema Viewer** (`roles/cloudsql.schemaViewer`) to see Cloud SQL tables and columns in catalog results
   - **AlloyDB Viewer** (`roles/alloydb.viewer`) to see AlloyDB tables and columns in catalog results
+  - **BigQuery Metadata Viewer** (`roles/bigquery.metadataViewer`) *(optional — only needed to detect BigQuery tables for lakehouse federation)*
 
   Knowledge Catalog also checks each result against its source system, so without the Cloud SQL or AlloyDB role, searches succeed but return no tables. No admin or editor roles are needed.
 
@@ -109,11 +111,11 @@ For sharper **Business Value** and **Architecture Fit** scores, include:
 
 Each analysis produces an executive summary of the top 3 recommendations, a ranked comparison table, copy-pasteable DDL sketches for schema gaps, and a two-week first-build plan:
 
-| Rank | Use case | Fit /10 | Value /10 | Readiness /10 | Average /10 | Tier |
-|---|---|---|---|---|---|---|
-| 1 | Per-session shopping assistant | 10.0 | 10.0 | 8.0 | 9.3 | Best suited case |
-| 2 | Inventory fan-out agents | 10.0 | 8.0 | 6.0 | 8.0 | Best suited case |
-| 3 | Order and payment integrity monitor | 7.5 | 10.0 | 6.0 | 7.8 | Best suited case |
+| Rank | Use case | Database(s) | Fit /10 | Value /10 | Readiness /10 | Average /10 | Tier |
+|---|---|---|---|---|---|---|---|
+| 1 | Per-session shopping assistant | `ecommerce_db` | 10.0 | 10.0 | 8.0 | 9.3 | Best suited case |
+| 2 | Inventory fan-out agents | `ecommerce_db` | 10.0 | 8.0 | 6.0 | 8.0 | Best suited case |
+| 3 | Order and payment integrity monitor | `ecommerce_db` | 7.5 | 10.0 | 6.0 | 7.8 | Best suited case |
 
 See [`references/example-report.md`](skills/alloydb-postgresql-agent-usecase-finder/references/example-report.md) for a complete worked example.
 

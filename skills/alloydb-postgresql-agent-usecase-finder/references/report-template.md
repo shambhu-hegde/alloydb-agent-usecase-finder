@@ -4,7 +4,7 @@ Use this structure. Keep the top section readable in under a minute.
 
 ---
 
-## Agentic use cases for <project(s)>, analysed <date>
+## Agentic use cases for <project(s)>, analyzed <date>
 
 **Scope:**
 - N databases (X Cloud SQL, Y AlloyDB; plus any BigQuery datasets noted for lakehouse federation)
@@ -15,7 +15,7 @@ Use this structure. Keep the top section readable in under a minute.
 
 ### Top recommendations
 
-For each of the top three use cases:
+For each of the top three use cases (or all ranked use cases if fewer than three):
 
 > **1. <Use case name>** — <Best suited case | Likely to suit use case> · average <x.x>/10
 > <One sentence on what the agent does and the business outcome it drives.>
@@ -35,7 +35,7 @@ Under the table, add one line for use cases left out because their fit is below 
 
 ### Data gaps by use case
 
-For each of the top five use cases:
+For each of the top five ranked use cases (or all ranked use cases if fewer than five):
 - **Missing or weak:** the exact table and column (or index/table), and why the agent needs it
 - **DDL sketch:** in a `sql` code block
 

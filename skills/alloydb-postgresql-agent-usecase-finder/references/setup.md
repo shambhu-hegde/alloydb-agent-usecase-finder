@@ -27,8 +27,9 @@ Knowledge Catalog checks permissions twice: once to allow the search, and again 
 |---|---|---|
 | MCP Tool User | `roles/mcp.toolUser` | Call the remote MCP server's tools |
 | Dataplex Catalog Viewer | `roles/dataplex.catalogViewer` | Search and read Knowledge Catalog entries |
-| Cloud SQL Schema Viewer | `roles/cloudsql.schemaViewer` | See Cloud SQL databases, tables and columns in catalog results (`cloudsql.schemas.view`). Needed if you have Cloud SQL databases. |
-| AlloyDB Viewer | `roles/alloydb.viewer` | See AlloyDB clusters, databases, tables and columns in catalog results. Needed if you have AlloyDB databases. |
+| Cloud SQL Schema Viewer | `roles/cloudsql.schemaViewer` | See Cloud SQL databases, tables, and columns in catalog results (`cloudsql.schemas.view`). Needed if you have Cloud SQL databases. |
+| AlloyDB Viewer | `roles/alloydb.viewer` | See AlloyDB clusters, databases, tables, and columns in catalog results. Needed if you have AlloyDB databases. |
+| BigQuery Metadata Viewer *(optional)* | `roles/bigquery.metadataViewer` | See BigQuery tables in Step 1's optional lakehouse federation check. |
 
 ```bash
 gcloud projects add-iam-policy-binding PROJECT_ID \
@@ -83,7 +84,7 @@ Sources:
   ```
 - **VS Code / Cursor / other MCP clients:** Add a remote Streamable HTTP server pointing to `https://dataplex.googleapis.com/mcp` with the read-only OAuth scope above.
 
-## 4. Check that the databases are catalogued
+## 4. Check that the databases are cataloged
 
 Cloud SQL and AlloyDB metadata must be ingested/discovered in Knowledge Catalog before tables appear in searches. If the connection test succeeds for other entry types (such as BigQuery) but Step 1's scoped searches (`system:cloud_sql AND type:table` and `system:alloydb AND type:table`) return no tables, verify that catalog discovery is enabled for your databases:
 - For Cloud SQL: https://docs.cloud.google.com/sql/docs/postgres/dataplex-catalog-integration
@@ -101,7 +102,7 @@ search_entries(projectId=PROJECT_ID, query="type:table",
 | Result | Meaning |
 |---|---|
 | Rows come back | Connected. Continue to Step 1 of the skill. |
-| Empty result | Connected, but nothing is catalogued or visible to this identity in `PROJECT_ID`. Check the source-system roles in section 2 (Cloud SQL Schema Viewer, AlloyDB Viewer), then catalog discovery in section 4. |
+| Empty result | Connected, but nothing is cataloged or visible to this identity in `PROJECT_ID`. Check the source-system roles in section 2 (Cloud SQL Schema Viewer, AlloyDB Viewer), then catalog discovery in section 4. |
 | Permission error | Check the IAM roles in section 2 and the OAuth scope in section 3. |
 | Tool not found | The client hasn't loaded the MCP server. Reconnect it or check the client config in section 3. |
 

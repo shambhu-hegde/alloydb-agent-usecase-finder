@@ -4,7 +4,7 @@ This is a worked example on a sample e-commerce schema, to show the expected dep
 
 ---
 
-## Agentic use cases for `example-project`, analysed 2026-09-24
+## Agentic use cases for `example-project`, analyzed 2026-09-24
 
 **Scope:**
 - 4 operational databases: 3 Cloud SQL (2 PostgreSQL 18.1, 1 SQL Server) and 1 AlloyDB (plus 1 BigQuery analytics dataset available for lakehouse federation)
@@ -26,7 +26,7 @@ This is a worked example on a sample e-commerce schema, to show the expected dep
 > **To build it you need:** replace the free-text `warehouse_location` with a required `warehouse_id`; add reorder points, a `stock_movements` ledger table, and an `agent_recommendations` table on the primary database.
 
 > **3. Order and payment integrity monitor** — Best suited case · average 7.8/10
-> Checks every new order within seconds for totals that don't reconcile (`subtotal + tax + shipping_fee ≠ total`), orders without a matching payment, and velocity or address anomalies before fulfilment.
+> Checks every new order within seconds for totals that don't reconcile (`subtotal + tax + shipping_fee ≠ total`), orders without a matching payment, and velocity or address anomalies before fulfillment.
 > **Why this architecture:** requires ~1-second freshness on `orders` and `payments` and strict production isolation so continuous verification bursts during peak checkout never add latency to payment commits.
 > **To build it you need:** an `order_status_history` table and `orders.updated_at`.
 
