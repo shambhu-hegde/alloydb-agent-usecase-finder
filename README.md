@@ -23,7 +23,7 @@ It reads **metadata only**: no row data is ever queried, and no writes are ever 
 ## Prerequisites
 
 1. **Google Cloud project(s)** with Cloud SQL or AlloyDB databases.
-2. **Catalog discovery enabled:** Your Cloud SQL and AlloyDB metadata must be ingested into **Knowledge Catalog** (formerly Dataplex Universal Catalog) so tables appear in catalog searches. For AlloyDB setup, see [Knowledge Catalog integration for AlloyDB](https://docs.cloud.google.com/alloydb/docs/knowledge-catalog-integration).
+2. **Catalog discovery enabled:** Your Cloud SQL and AlloyDB metadata must be ingested into **Knowledge Catalog** (formerly Dataplex Universal Catalog) so tables appear in catalog searches. See [Knowledge Catalog integration for Cloud SQL](https://docs.cloud.google.com/sql/docs/postgres/dataplex-catalog-integration) and [Knowledge Catalog integration for AlloyDB](https://docs.cloud.google.com/alloydb/docs/knowledge-catalog-integration).
 3. **Knowledge Catalog remote MCP server connected** (`https://dataplex.googleapis.com/mcp`) with read-only permissions (see below).
 
 ---

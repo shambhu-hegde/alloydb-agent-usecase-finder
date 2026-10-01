@@ -72,6 +72,7 @@ Notes on least privilege:
 ## 4. Check that the databases are catalogued
 
 Cloud SQL and AlloyDB metadata must be ingested/discovered in Knowledge Catalog before tables appear in searches. If the connection test succeeds for other entry types (such as BigQuery) but Step 1's scoped searches (`system:cloud_sql AND type:table` and `system:alloydb AND type:table`) return no tables, verify that catalog discovery is enabled for your databases:
+- For Cloud SQL: https://docs.cloud.google.com/sql/docs/postgres/dataplex-catalog-integration
 - For AlloyDB: https://docs.cloud.google.com/alloydb/docs/knowledge-catalog-integration
 
 ## Connection test
