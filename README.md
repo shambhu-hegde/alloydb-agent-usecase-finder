@@ -1,4 +1,4 @@
-# AlloyDB PostgreSQL agent use-case finder
+# AlloyDB PostgreSQL agent use case finder
 
 This is a skill that discovers, ranks, and recommends the agent use cases you could build with **PostgreSQL for agents in AlloyDB** (Preview). 
 
