@@ -17,29 +17,43 @@ Source: https://docs.cloud.google.com/dataplex/docs/use-remote-mcp
   ```
   Enabling APIs requires the `serviceusage.services.enable` permission (`roles/owner` or `roles/serviceusage.serviceUsageAdmin`).
 
-## 2. Grant IAM roles (least privilege recommended)
+## 2. Grant IAM roles (read-only)
 
-This skill **only reads catalog metadata**—it never modifies catalog entries or queries database rows. Grant the calling identity:
+This skill **only reads catalog metadata**. It never modifies catalog entries or queries database rows, so every role below is read-only.
+
+Knowledge Catalog checks permissions twice: once to allow the search, and again on each result's source system. With only the catalog role, searches succeed but return no Cloud SQL or AlloyDB tables. Grant the calling identity all of the roles that apply:
 
 | Role | Role ID | Why |
 |---|---|---|
-| MCP Tool User | `roles/mcp.toolUser` | Invoke remote MCP tool calls (`mcp.tools.call`) |
-| Dataplex Catalog Viewer *(recommended)* | `roles/dataplex.catalogViewer` or `roles/dataplex.viewer` (plus source metadata read access) | Read-only access to Knowledge Catalog entries and entry groups |
-| Dataplex Catalog Admin *(sandbox fallback)* | `roles/dataplex.catalogAdmin` | Full access to Knowledge Catalog resources if your project does not separate viewer roles |
+| MCP Tool User | `roles/mcp.toolUser` | Call the remote MCP server's tools |
+| Dataplex Catalog Viewer | `roles/dataplex.catalogViewer` | Search and read Knowledge Catalog entries |
+| Cloud SQL Schema Viewer | `roles/cloudsql.schemaViewer` | See Cloud SQL databases, tables and columns in catalog results (`cloudsql.schemas.view`). Needed if you have Cloud SQL databases. |
+| AlloyDB Viewer | `roles/alloydb.viewer` | See AlloyDB clusters, databases, tables and columns in catalog results. Needed if you have AlloyDB databases. |
 
 ```bash
 gcloud projects add-iam-policy-binding PROJECT_ID \
   --member="user:USER_EMAIL" --role="roles/mcp.toolUser"
 
-# Recommended least-privilege read-only role:
 gcloud projects add-iam-policy-binding PROJECT_ID \
   --member="user:USER_EMAIL" --role="roles/dataplex.catalogViewer"
+
+# If the project has Cloud SQL databases:
+gcloud projects add-iam-policy-binding PROJECT_ID \
+  --member="user:USER_EMAIL" --role="roles/cloudsql.schemaViewer"
+
+# If the project has AlloyDB databases:
+gcloud projects add-iam-policy-binding PROJECT_ID \
+  --member="user:USER_EMAIL" --role="roles/alloydb.viewer"
 ```
 
-Notes on least privilege:
-- **Custom minimal role:** If your organization prefers custom roles, grant only `mcp.tools.call`, `dataplex.projects.search`, `dataplex.entries.get`, `dataplex.entries.list`, and `dataplex.entryGroups.use`.
-- **Search results are filtered by permission:** The caller only sees catalog entries they have permission to view. To analyze Cloud SQL and AlloyDB tables, the identity needs catalog read access to those entries.
-- **Use a separate identity for automated agents:** Google recommends using a dedicated service account or agent identity so agent access can be controlled and audited independently.
+Notes:
+- **Don't grant admin or editor roles.** Catalog Admin and Catalog Editor can change or delete catalog entries and glossaries, which this skill never needs. If searches return no tables, check the source-system roles above before reaching for broader access.
+- **Cloud SQL Schema Viewer applies project-wide.** `cloudsql.schemas.view` must be granted at the project level, so the identity can see schema metadata for every Cloud SQL instance in the project.
+- **Use a separate identity for automated agents.** Google recommends a dedicated service account or agent identity, so agent access can be controlled and audited on its own.
+
+Sources:
+- https://docs.cloud.google.com/sql/docs/postgres/dataplex-catalog-integration
+- https://docs.cloud.google.com/alloydb/docs/knowledge-catalog-integration
 
 ## 3. Connect the client
 
@@ -87,7 +101,7 @@ search_entries(projectId=PROJECT_ID, query="type:table",
 | Result | Meaning |
 |---|---|
 | Rows come back | Connected. Continue to Step 1 of the skill. |
-| Empty result | Connected, but nothing is catalogued or visible to this identity in `PROJECT_ID`. Check sections 2 and 4. |
+| Empty result | Connected, but nothing is catalogued or visible to this identity in `PROJECT_ID`. Check the source-system roles in section 2 (Cloud SQL Schema Viewer, AlloyDB Viewer), then catalog discovery in section 4. |
 | Permission error | Check the IAM roles in section 2 and the OAuth scope in section 3. |
 | Tool not found | The client hasn't loaded the MCP server. Reconnect it or check the client config in section 3. |
 

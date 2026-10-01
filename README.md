@@ -62,9 +62,13 @@ If the MCP server isn't connected yet, the skill automatically detects that in S
 
 - **Server URL:** `https://dataplex.googleapis.com/mcp` (Streamable HTTP)
 - **OAuth scope (read-only):** `https://www.googleapis.com/auth/dataplex.readonly`
-- **Least-privilege IAM roles:**
-  - **MCP Tool User** (`roles/mcp.toolUser`) to invoke the remote MCP server
-  - **Dataplex Catalog Viewer** (`roles/dataplex.catalogViewer` or `roles/dataplex.viewer`, plus read access to source metadata — or a minimal custom role granting `dataplex.projects.search`, `dataplex.entries.get`, `dataplex.entries.list`, and `dataplex.entryGroups.use`). For sandbox or test projects, **Dataplex Catalog Admin** (`roles/dataplex.catalogAdmin`) also works as a broader fallback.
+- **Read-only IAM roles:**
+  - **MCP Tool User** (`roles/mcp.toolUser`) to call the remote MCP server's tools
+  - **Dataplex Catalog Viewer** (`roles/dataplex.catalogViewer`) to search and read catalog entries
+  - **Cloud SQL Schema Viewer** (`roles/cloudsql.schemaViewer`) to see Cloud SQL tables and columns in catalog results
+  - **AlloyDB Viewer** (`roles/alloydb.viewer`) to see AlloyDB tables and columns in catalog results
+
+  Knowledge Catalog also checks each result against its source system, so without the Cloud SQL or AlloyDB role, searches succeed but return no tables. No admin or editor roles are needed.
 
 ### Client MCP configuration examples
 
