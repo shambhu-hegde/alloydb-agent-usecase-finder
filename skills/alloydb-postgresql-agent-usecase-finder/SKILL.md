@@ -1,9 +1,9 @@
 ---
-name: alloydb-agent-usecase-finder
+name: alloydb-postgresql-agent-usecase-finder
 description: Discover, rank, and gap-check agentic use cases for PostgreSQL for agents in AlloyDB using a customer's existing Cloud SQL and AlloyDB databases, read through the Knowledge Catalog MCP server. Use when someone asks what agents they could build on their databases, whether their data fits AlloyDB's agentic architecture, or what data is missing to support an agent use case.
 ---
 
-# AlloyDB agent use-case finder
+# AlloyDB PostgreSQL agent use-case finder
 
 This skill looks at the table and column metadata of a customer's Cloud SQL and AlloyDB databases through Knowledge Catalog. It proposes agent use cases and ranks them by business value, data readiness and fit for **PostgreSQL for agents in AlloyDB** (Preview). It also lists the columns and tables each use case is missing.
 

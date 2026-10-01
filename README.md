@@ -1,4 +1,4 @@
-# AlloyDB agent use-case finder
+# AlloyDB PostgreSQL agent use-case finder
 
 An agent skill that finds the agents you could build on your existing **Cloud SQL** and **AlloyDB** databases with **PostgreSQL for agents in AlloyDB** (Preview).
 
@@ -16,7 +16,7 @@ It reads **metadata only**: no row data, and no writes.
 
 ## Install
 
-The skill lives in [`skills/alloydb-agent-usecase-finder`](skills/alloydb-agent-usecase-finder). A packaged copy is in [`alloydb-agent-usecase-finder.skill`](alloydb-agent-usecase-finder.skill), a standard zip archive.
+The skill lives in [`skills/alloydb-postgresql-agent-usecase-finder`](skills/alloydb-postgresql-agent-usecase-finder). A packaged copy is in [`alloydb-postgresql-agent-usecase-finder.skill`](alloydb-postgresql-agent-usecase-finder.skill), a standard zip archive.
 
 | Client | How |
 |---|---|
@@ -46,7 +46,7 @@ The skill checks for the server and walks you through setup only if it isn't con
 }
 ```
 
-Full details are in [`references/setup.md`](skills/alloydb-agent-usecase-finder/references/setup.md).
+Full details are in [`references/setup.md`](skills/alloydb-postgresql-agent-usecase-finder/references/setup.md).
 
 ## Use
 

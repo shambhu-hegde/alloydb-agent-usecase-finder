@@ -1,4 +1,4 @@
-# AlloyDB agent use-case finder (agent skill)
+# AlloyDB PostgreSQL agent use-case finder (agent skill)
 
 This skill finds the agents you could build on your existing **Cloud SQL** and **AlloyDB** databases with **PostgreSQL for agents in AlloyDB** (Preview). It reads your table and column metadata through the **Knowledge Catalog MCP server**, then:
 
