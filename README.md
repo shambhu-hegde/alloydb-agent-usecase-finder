@@ -1,10 +1,13 @@
 # AlloyDB PostgreSQL agent use-case finder
 
-An agent skill that discovers, ranks, and gap-checks the agents you could build on your existing **Cloud SQL** and **AlloyDB** databases with **PostgreSQL for agents in AlloyDB** (Preview).
+This is a skill that discovers, ranks, and recommends the agent use cases you could build with **PostgreSQL for agents in AlloyDB** (Preview). 
+Launch blogs:
+1) https://cloud.google.com/blog/products/databases/announcing-postgresql-for-agents-in-alloydb
+2) https://cloud.google.com/blog/products/databases/alloydbs-agentic-database-architecture
 
-It reads your table and column metadata through the remote **Knowledge Catalog (Dataplex) MCP server**, then:
+This skills reads your table and column metadata through the Google Cloud **Knowledge Catalog (Dataplex) MCP server**, then:
 
-1. **Inventories your databases:** finds your Cloud SQL and AlloyDB tables (and checks for BigQuery tables that could join via lakehouse federation), strictly scoped to the Google Cloud projects you name
+1. **Inventories your databases:** finds your Cloud SQL and AlloyDB tables (and checks for BigQuery tables that could join via lakehouse federation), strictly scoped to the Google Cloud projects you name.
 2. **Models your business domain:** infers relationships between tables (including irregular plurals, role-prefixed foreign keys, and self-referential hierarchies) and classifies each table
 3. **Proposes grounded agent use cases:** matches your schema against ten battle-tested agent patterns (plus custom domain patterns) and cites the exact tables and columns that support each candidate
 4. **Scores and ranks candidates out of 10:** evaluates **Architecture Fit** (grounded in AlloyDB's microVM isolation, sub-millisecond Colossus I/O, elastic zero-to-thousands node scaling, and hybrid vector/BM25/spatial/columnar execution), **Business Value**, and **Data Readiness**, labeling each ranked candidate a **Best suited case** or a **Likely to suit use case**
