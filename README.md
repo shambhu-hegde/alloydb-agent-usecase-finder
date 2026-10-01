@@ -1,6 +1,7 @@
 # AlloyDB PostgreSQL agent use-case finder
 
 This is a skill that discovers, ranks, and recommends the agent use cases you could build with **PostgreSQL for agents in AlloyDB** (Preview). 
+
 Launch blogs:
 1) https://cloud.google.com/blog/products/databases/announcing-postgresql-for-agents-in-alloydb
 2) https://cloud.google.com/blog/products/databases/alloydbs-agentic-database-architecture
